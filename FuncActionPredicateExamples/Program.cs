@@ -33,8 +33,9 @@ employees.Add(new Employee { Id = 1, FirstName = "Sarah", LastName = "Jones", An
 employees.Add(new Employee { Id = 2, FirstName = "Andrew", LastName = "Brown", AnnualSalary = calculateTotalAnnualSalary(40000, 2), Gender = 'm', IsManager = false });
 employees.Add(new Employee { Id = 3, FirstName = "John", LastName = "Henderson", AnnualSalary = calculateTotalAnnualSalary(58000, 2), Gender = 'm', IsManager = true });
 employees.Add(new Employee { Id = 4, FirstName = "Jane", LastName = "May", AnnualSalary = calculateTotalAnnualSalary(30000, 2), Gender = 'f', IsManager = false });
-List<Employee> employeesFiltered = MathClass.FilterEmployees(employees, e => e.Gender == 'f');
-foreach(Employee employee in employeesFiltered)
+//List<Employee> employeesFiltered = MathClass.FilterEmployees(employees, e => e.Gender == 'f');
+List<Employee> employeesFiltered = employees.FilterEmployees(e => e.AnnualSalary < 45000);
+foreach (Employee employee in employeesFiltered)
 {
     displayEmployeeDetails(employee.Id, employee.FirstName, employee.LastName, employee.AnnualSalary, employee.Gender, employee.IsManager);
     Console.WriteLine();
@@ -50,10 +51,26 @@ public class MathClass
     {
         return a + b;
     }
-    public static List<Employee> FilterEmployees(List<Employee> employees, Predicate<Employee> predicate)
+
+    //public static List<Employee> FilterEmployees(this List<Employee> employees, Predicate<Employee> predicate)
+    //{
+    //    List<Employee> employeesFiltered = new List<Employee>();
+    //    foreach (Employee employee in employees)
+    //    {
+    //        if (predicate(employee))
+    //        {
+    //            employeesFiltered.Add(employee);
+    //        }
+    //    }
+    //    return employeesFiltered;
+    //}
+}
+public static class Extensions
+{
+    public static List<Employee> FilterEmployees(this List<Employee> employees, Predicate<Employee> predicate)
     {
         List<Employee> employeesFiltered = new List<Employee>();
-        foreach(Employee employee in employees)
+        foreach (Employee employee in employees)
         {
             if (predicate(employee))
             {
@@ -62,7 +79,6 @@ public class MathClass
         }
         return employeesFiltered;
     }
-
 }
 public class Employee
 {
